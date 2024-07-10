@@ -8,9 +8,11 @@ class Map:
         self.list_enemies: list = []
         self.list_walls: list = []
         self.list_items: list = []
-        self.map_state: list = []
+        self.map_state: list = [] # Height before length
         self.map_width: int = 0
         self.map_height: int = 0
+
+
 
 # ------------------ Adding entities -------------------
     #     def add_enemy(self, enemy):
@@ -21,13 +23,18 @@ class Map:
 
 # ------------------- Create Map -------------------
     def create_map(self, width: int, height: int):
+        """ 
+        Create a map with specified dimentions
+        Args:
+            width (int): width of the map
+            height (int): height of the map
+        """
         temp_map = []
         for i in range(height):
             temp_map.append([None] * width)
         self.map_state = temp_map
         self.map_width = width
         self.map_height = height
-
 # ------------------- Checks ----------------------
     def is_in_map(self, x_int: int, y_int: int) -> bool:
         """
@@ -113,9 +120,10 @@ class Map:
         return self.map_state
 
 # -----------------------------------------------------
-    def print_map(self) -> str:
+    def display_map(self) -> str:
         """
         Prints the map from the map state.
+        NOTE: map_state[height][length]
         NOTE: this command does not compile the entity lists onto the map state.
         :return: str
         """
@@ -125,12 +133,12 @@ class Map:
         # make a new row for each height level
         for i in range(self.map_height):
             new_row = ""
-
+            
             # add the symbols to the new row
             for j in range(self.map_width):
-
+                
                 # this makes 1, 1 the bottom left corner
-                cell = self.map_state[self.map_width - i + 1][j]
+                cell = self.map_state[self.map_height - i - 1][j]
 
                 # if the cell is None, add the placeholder symbol
                 if cell is None:

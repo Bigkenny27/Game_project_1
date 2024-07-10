@@ -1,6 +1,6 @@
 class Hero:
     # ---------------------------- Initialisation -----------------------------
-    def __init__(self, hero_class: str, x_pos: int, y_pos: int):
+    def __init__(self, hero_class: str):
 
         self.hero_class: str = hero_class
         self.hero_level: int = 1
@@ -10,8 +10,8 @@ class Hero:
         self.hero_is_dead: bool = False
 
         # map stuff
-        self.x_pos: int = x_pos
-        self.y_pos: int = y_pos
+        self.x_pos: int = 1
+        self.y_pos: int = 1
         self.map_symbol: str = "H"
 
     # --------------------------- Movement ----------------------------
@@ -21,6 +21,10 @@ class Hero:
     def move_up(self): self.y_pos += 1
     def move_down(self): self.y_pos -= 1
 
+    def set_position(self, x_pos: int, y_pos: int):
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        
     # -------------------------- Player Methods -----------------------------
     def level_up(self) -> None:
         self.hero_level += 1
