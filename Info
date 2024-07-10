@@ -1,0 +1,18 @@
+adding something onto the map should be done in run (or similar function)
+first step is to parse the item - make sure it follows naming conventions, ect
+second step is to do checks inside the map.
+e.g. is the location already occupied by another object?
+    is the name already used?
+    stuff like that.
+
+
+
+object_type is used to check what type of object it is
+map_symbol is used to display the symbol that the map will show
+
+
+
+
+
+
+All add methods can be fused in the future
