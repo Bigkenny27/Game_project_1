@@ -32,6 +32,5 @@ def testcase_1():
     print(testmap.display_map())
 
 if __name__ == '__main__':
-    testcase_1()
-    run.print_help_list()
+    
 

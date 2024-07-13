@@ -45,9 +45,24 @@ def player_choices_in_map(input: str, player: Hero):
     else:
         print("")
         
+    return
     
-    
+def update_map(level_map: Map):
         
+    # recreate the map
+    map_width = level_map.map_width
+    map_height = level_map.map_height
+    level_map.create_map(map_width, map_height)
+
+    
+    # re-add the walls
+    for i in level_map.list_walls:
+        wall_map_y_pos = i.get_map_y_pos 
+        wall_map_x_pos = i.get_map_x_pos
+        level_map.map_state[wall_map_y_pos][wall_map_x_pos]
+        
+    # add the player
+    level_map.add_hero(level_map.hero)
     return
 
 def in_map_movement(level_map: Map, player: Hero):
@@ -65,8 +80,9 @@ def in_map_movement(level_map: Map, player: Hero):
         
         print("what would you like to do")
         player_decision = input("> ")
-        player_choices_in_map
-        
+        player_choices_in_map(player_decision, player)
+        # update map
+        update_map()
 
         
         
