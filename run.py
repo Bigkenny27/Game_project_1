@@ -5,12 +5,47 @@ from Map import Map
 from Wall import Wall
 import level_maker
 
-def player_choices_in_map(input: str):
+
+def print_help_list():
+    print("""
+Commands: 
+Movement (m)
+....
+          
+        """)
+    return
+
+
+def player_choices_in_map(input: str, player: Hero):
     """
     This function will check what the input of the player and perform an action based on the input
     Args:
         input (str): player input
     """
+    # ---------------- Help -------------------
+    if input == "help":
+        print_help_list()
+    # -------------- Movement -----------------
+    elif input == "a":
+        player.move_left()
+        return
+    
+    elif input == "d":
+        player.move_right()
+        return
+    
+    elif input == "w":
+        player.move_up()
+        return
+    
+    elif input == "s":
+        player.move_down()
+        return
+    # -------------- Error --------------------
+    else:
+        print("")
+        
+    
     
         
     return
@@ -30,8 +65,9 @@ def in_map_movement(level_map: Map, player: Hero):
         
         print("what would you like to do")
         player_decision = input("> ")
+        player_choices_in_map
         
-        
+
         
         
 

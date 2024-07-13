@@ -1,5 +1,7 @@
 from Map import Map
 from Wall import Wall
+import run
+
 
 def map_check(map: Map):
     map.create_map(3, 5)
@@ -31,4 +33,5 @@ def testcase_1():
 
 if __name__ == '__main__':
     testcase_1()
+    run.print_help_list()
 
