@@ -24,7 +24,7 @@ class Map:
 # ------------------- Create Map -------------------
     def create_map(self, width: int, height: int):
         """ 
-        Create a map with specified dimentions
+        Sets the dimentions for a map
         Args:
             width (int): width of the map
             height (int): height of the map
@@ -33,78 +33,124 @@ class Map:
         for i in range(height):
             temp_map.append([None] * width)
         self.map_state = temp_map
+        
         self.map_width = width
         self.map_height = height
 # ------------------- Checks ----------------------
-    def is_in_map(self, x_int: int, y_int: int) -> bool:
+    def is_in_map(self, entity: Hero | Wall) -> bool:
         """
         Checks if the point is inside the map
         :param x_int: x coordinate of the point
         :param y_int: y coordinate of the point
         :return: bool
         """
+        
+        x_int = entity.get_x_pos()
+        y_int = entity.get_y_pos()
+        
         # Checks if values are within the lower bound
         if x_int <= 0 or y_int <= 0:
+            print(f"{type(entity)} is lower than the lower bounds of the map")
+            print(f"{type(entity)} is at ({entity.get_x_pos()}, {entity.get_y_pos()})")
             return False
+        
         # Checks if values are within the upper bound
         if x_int > self.map_width or y_int > self.map_height:
+            print(f"{type(entity)} is higher than the upper bounds of the map")
+            print(f"{type(entity)} is at ({entity.get_x_pos()}, {entity.get_y_pos()})")
+            print(f"Map size is {self.map_width}x{self.map_height}")
             return False
         return True
 
-    def check_cell(self, x_pos: int, y_pos: int) -> Hero | Wall | None:
-        return self.map_state[y_pos - 1][x_pos - 1]
+    def check_cell(self, y_pos: int, x_pos: int) -> Hero | Wall | None:
+        """ Checks if the cell contains any entities
+        Args:
+            y_pos (int):
+            x_pos (int): 
+        Returns:
+            Hero | Wall | None: entity that is occupying the cell
+        """
+        return self.map_state[y_pos - 1][x_pos - 1] 
     
 # ------------------- Add Hero ----------------------
     # ALL add commands can be fused in the future
 
     def add_hero(self, hero: Hero) -> None:
         """
-        Adds the Hero to the board state.
+        Parses and adds the Hero to self.hero.
+        make sure that hero has a location set
+        
         :param hero:
         :return: 
         """
-
+        
         # checks if the values are within the bounds of the map
-        if hero.get_x_pos() <= 0 or hero.get_y_pos() <= 0:
-            print("Hero is lower than the lower bound of the map"
-                  f"Hero is at ({hero.get_x_pos()}, {hero.get_y_pos()})")
+        if not self.is_in_map(hero):
             return
-        # Checks if values are within the upper bound
-        if hero.get_x_pos() > self.map_width or hero.get_y_pos() > self.map_height:
-            print("Hero is not within the upper bound of the map"
-                  f"Map size is {self.map_width}x{self.map_height}"
-                  f"Hero is at ({hero.get_x_pos()}, {hero.get_y_pos()})")
-            return
-
-        if self.map_state[hero.get_map_y_pos()][hero.get_map_x_pos()] is not None:
+        
+        # check if something is occupying same space
+        
+        print(hero.get_x_pos())
+        print(hero.get_y_pos())
+        cell = self.check_cell(hero.get_x_pos(), hero.get_y_pos())
+        if cell is not None:
             print(
-                f"Cell {hero.get_x_pos}, {hero.get_y_pos}is already occupied by {self.map_state[hero.get_map_y_pos()][hero.get_map_x_pos()]}")
+                f"Cell {hero.get_x_pos}, {hero.get_y_pos}is already occupied by {cell}")
             return
         # Adds the Hero to the Hero list
-        self.hero = Hero
-        self.map_state[hero.get_map_y_pos()][hero.get_map_x_pos()] = hero
+        self.hero = hero
+        
 
 # -------------------- Add Wall -----------------------
     def add_wall(self, wall: Wall) -> None:
-
-        # Checks if values are within the lower bound
-        if wall.get_x_pos() <= 0 or wall.get_y_pos() <= 0:
-            return
-        # Checks if values are within the upper bound
-        if wall.get_x_pos() > self.map_width or wall.get_y_pos() > self.map_height:
+        """
+        This function parses and adds a wall into maps wall list.
+        Args:
+            wall (Wall): 
+        """
+        # Chekcs if the wall is inside the boundaries of the map
+        if not self.is_in_map(wall):
             return
 
         # Checks if the cell is already occupied by something else
-        if self.map_state[wall.get_map_y_pos()][wall.get_map_x_pos()] is not None:
-            print(f"Cell {wall.get_x_pos}, {wall.get_y_pos}is already occupied by {self.map_state[wall.get_map_y_pos()][wall.get_map_x_pos()]}")
+        cell = self.check_cell(wall.get_x_pos(),wall.get_y_pos())
+        
+        if cell is not None:
+            print(f"Cell {wall.get_x_pos}, {wall.get_y_pos}is already occupied by {cell}")
             return
 
         # add to the lists if all of these pass
         self.list_walls.append(wall)
 
-        # add the wall to the map_state
-        self.map_state[wall.get_map_y_pos()][wall.get_map_x_pos()] = wall
         return
+
+# Update Map
+    def update_map(self):
+            
+        # create the map
+        height = self.map_height
+        width = self.map_width
+        print(f"height: {height}, width: {width}")
+        
+        temp_map = []
+        for i in range(height):
+            temp_map.append([None] * width)
+        print(temp_map)
+        self.map_state = temp_map
+        
+
+        # re-add the walls
+        for i in self.list_walls:
+            wall_map_y_pos = i.get_map_y_pos() 
+            wall_map_x_pos = i.get_map_x_pos()
+            
+            self.map_state[wall_map_y_pos][wall_map_x_pos] = i
+            
+        # add the player 
+        # for i in self.hero:
+        
+        self.map_state[self.hero.get_map_y_pos()][self.hero.get_map_x_pos()]
+            
 
 # ------------------- Get Methods ---------------------
     def get_list_enemies(self):
@@ -127,8 +173,11 @@ class Map:
         NOTE: this command does not compile the entity lists onto the map state.
         :return: str
         """
+        
+        # update the map
+        self.update_map()
+         
         # initialise the map variable
-
         print_map = ""
         # make a new row for each height level
         for i in range(self.map_height):
