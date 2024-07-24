@@ -1,5 +1,5 @@
 class Hero:
-    # ---------------------------- Initialisation -----------------------------
+    
     def __init__(self, hero_class: str):
 
         self.hero_class: str = hero_class

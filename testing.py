@@ -3,6 +3,10 @@ from Wall import Wall
 from Player import Hero
 import run
 
+def print_player_location(player_hero: Hero) -> None:
+    print(f"The player's postition is currently {player_hero.get_x_pos()}, {player_hero.get_y_pos()}")
+    return
+    
 def test_add_wall():
     # create variables
     test_map = Map()
@@ -75,7 +79,6 @@ def testcase_2():
     wall2 = Wall(2, 3)
     testmap.add_wall(wall1)
     testmap.add_wall(wall2)
-    print(testmap.display_map())
     
     # Setting up Hero
     player_hero = Hero("hero")
@@ -85,9 +88,13 @@ def testcase_2():
     
 
     # Moving
-    player_hero.move_right()
-    testmap.update_map()
+
     print(testmap.display_map())
+    print_player_location(player_hero)
+    player_hero.move_left()
+    print_player_location(player_hero)
+    print(testmap.display_map())
+    
     
     
 def main():

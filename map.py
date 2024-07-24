@@ -63,16 +63,46 @@ class Map:
         return True
 
     def check_cell(self, y_pos: int, x_pos: int) -> Hero | Wall | None:
-        """ Checks if the cell contains any entities
+        """ Checks if the cell contains any entities 
+        Use the 
         Args:
             y_pos (int):
             x_pos (int): 
         Returns:
             Hero | Wall | None: entity that is occupying the cell
         """
+        print(self.map_state)
         return self.map_state[y_pos - 1][x_pos - 1] 
     
-# ------------------- Add Hero ----------------------
+    
+    # Update Map
+    def update_map(self):
+            
+        # create the map
+        height = self.map_height
+        width = self.map_width
+        
+        temp_map = []
+        for i in range(height):
+            temp_map.append([None] * width)
+            
+        self.map_state = temp_map
+        
+
+        # re-add the walls
+        for i in self.list_walls:
+            wall_map_y_pos = i.get_map_y_pos() 
+            wall_map_x_pos = i.get_map_x_pos()
+            
+            self.map_state[wall_map_y_pos][wall_map_x_pos] = i
+            
+        # add the player 
+        # for i in self.hero:
+        
+        self.map_state[self.hero.get_map_y_pos()][self.hero.get_map_x_pos()] = self.hero
+            
+            
+# ------------------- Add Entities ----------------------
     # ALL add commands can be fused in the future
 
     def add_hero(self, hero: Hero) -> None:
@@ -100,15 +130,18 @@ class Map:
         # Adds the Hero to the Hero list
         self.hero = hero
         
+        
 
-# -------------------- Add Wall -----------------------
     def add_wall(self, wall: Wall) -> None:
         """
         This function parses and adds a wall into maps wall list.
         Args:
             wall (Wall): 
         """
-        # Chekcs if the wall is inside the boundaries of the map
+       
+        print(f"Wall being added at {wall.get_x_pos() - 1}, {wall.get_y_pos() - 1}")
+        
+        # Checks if the wall is inside the boundaries of the map
         if not self.is_in_map(wall):
             return
 
@@ -121,36 +154,8 @@ class Map:
 
         # add to the lists if all of these pass
         self.list_walls.append(wall)
-
+        self.update_map()
         return
-
-# Update Map
-    def update_map(self):
-            
-        # create the map
-        height = self.map_height
-        width = self.map_width
-        print(f"height: {height}, width: {width}")
-        
-        temp_map = []
-        for i in range(height):
-            temp_map.append([None] * width)
-        print(temp_map)
-        self.map_state = temp_map
-        
-
-        # re-add the walls
-        for i in self.list_walls:
-            wall_map_y_pos = i.get_map_y_pos() 
-            wall_map_x_pos = i.get_map_x_pos()
-            
-            self.map_state[wall_map_y_pos][wall_map_x_pos] = i
-            
-        # add the player 
-        # for i in self.hero:
-        
-        self.map_state[self.hero.get_map_y_pos()][self.hero.get_map_x_pos()]
-            
 
 # ------------------- Get Methods ---------------------
     def get_list_enemies(self):

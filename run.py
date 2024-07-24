@@ -83,8 +83,7 @@ def in_map_movement(level_map: Map, player: Hero):
         player_decision = input("> ")
         player_choices_in_map(player_decision, player)
         # update map
-        update_map()
-
+        
         
         
 
