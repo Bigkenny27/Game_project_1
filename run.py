@@ -15,6 +15,9 @@ Movement (m)
         """)
     return
 
+def collision_check():
+    # TODO: create collision test for the movement command
+    return
 
 def player_choices_in_map(input: str, player: Hero):
     """
@@ -29,6 +32,12 @@ def player_choices_in_map(input: str, player: Hero):
     elif input == "Quit":
         raise ValueError("End game")
     # -------------- Movement -----------------
+    movement_inputs = ["a", "s", "d", "w"]
+    
+    if input in movement_inputs:
+        collision_check()
+    
+    
     elif input == "a":
         player.move_left()
         return
