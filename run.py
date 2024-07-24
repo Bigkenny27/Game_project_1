@@ -25,6 +25,9 @@ def player_choices_in_map(input: str, player: Hero):
     # ---------------- Help -------------------
     if input == "help":
         print_help_list()
+        
+    elif input == "Quit":
+        raise ValueError("End game")
     # -------------- Movement -----------------
     elif input == "a":
         player.move_left()
@@ -83,7 +86,7 @@ def in_map_movement(level_map: Map, player: Hero):
         player_decision = input("> ")
         player_choices_in_map(player_decision, player)
         # update map
-        
+        level_map.update_map()
         
         
 
@@ -109,8 +112,6 @@ def main():
     
     # in map movement
     in_map_movement(level_map, player)
-    
-    
     
 
 

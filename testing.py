@@ -74,21 +74,19 @@ def testcase_2():
     print("Map made with width 3 and height of 5")
     print(testmap.map_state)
     
-    # Adding walls
-    wall1 = Wall(1,1)   
-    wall2 = Wall(2, 3)
-    testmap.add_wall(wall1)
-    testmap.add_wall(wall2)
-    
     # Setting up Hero
     player_hero = Hero("hero")
     player_hero.set_position(2,2)
     testmap.add_hero(player_hero)
     print(testmap.display_map())
     
-
+    # Adding walls
+    wall1 = Wall(1,1)   
+    wall2 = Wall(2, 3)
+    testmap.add_wall(wall1)
+    testmap.add_wall(wall2)
+    
     # Moving
-
     print(testmap.display_map())
     print_player_location(player_hero)
     player_hero.move_left()
@@ -123,3 +121,4 @@ def main():
 if __name__ == '__main__':
     main()
 
+X

@@ -62,7 +62,7 @@ class Map:
             return False
         return True
 
-    def check_cell(self, y_pos: int, x_pos: int) -> Hero | Wall | None:
+    def check_cell(self, x_pos: int, y_pos: int) -> Hero | Wall | None:
         """ Checks if the cell contains any entities 
         Use the 
         Args:
@@ -88,6 +88,8 @@ class Map:
             
         self.map_state = temp_map
         
+        # add the player 
+        self.map_state[self.hero.get_map_y_pos()][self.hero.get_map_x_pos()] = self.hero
 
         # re-add the walls
         for i in self.list_walls:
@@ -95,11 +97,7 @@ class Map:
             wall_map_x_pos = i.get_map_x_pos()
             
             self.map_state[wall_map_y_pos][wall_map_x_pos] = i
-            
-        # add the player 
-        # for i in self.hero:
-        
-        self.map_state[self.hero.get_map_y_pos()][self.hero.get_map_x_pos()] = self.hero
+
             
             
 # ------------------- Add Entities ----------------------
@@ -139,15 +137,17 @@ class Map:
             wall (Wall): 
         """
        
-        print(f"Wall being added at {wall.get_x_pos() - 1}, {wall.get_y_pos() - 1}")
+        print(f"Wall being added at index:{wall.get_x_pos() - 1}, {wall.get_y_pos() - 1}")
         
         # Checks if the wall is inside the boundaries of the map
         if not self.is_in_map(wall):
             return
 
         # Checks if the cell is already occupied by something else
+        print(f"wall at {wall.get_x_pos()},{wall.get_y_pos()}")
         cell = self.check_cell(wall.get_x_pos(),wall.get_y_pos())
         
+        print("done")
         if cell is not None:
             print(f"Cell {wall.get_x_pos}, {wall.get_y_pos}is already occupied by {cell}")
             return
