@@ -15,68 +15,83 @@ Movement (m)
         """)
     return
 
-def collision_check():
-    # TODO: create collision test for the movement command
+def player_movement(player: Hero, level_map: Map, direction: str) -> str | None:
+    """ 
+    This function will move the player and return what action must be taken for the movement
+    
+    Args:
+        player (Hero): Player character
+        level_map (Map): the map of the level
+        direction (str): direction of movement
+
+    Returns:
+        str: Action
+    """
+    # move the player
+    if direction == "a": player.move_left()
+    elif direction == "d": player.move_right()
+    elif direction == "w": player.move_up()
+    elif direction == "s": player.move_down()
+    else: assert ValueError("Somehow player_movement has an incorrect direction specified")
+    # Check if movement is valid
+    
+    
+    if level_map.check_cell(player.get_x_pos(), player.get_y_pos()) is None:
+        return None
+    
+    
+    if level_map.check_cell(player.get_x_pos(), player.get_y_pos()) == "Enemy":
+        # TODO:
+        pass
+    
+    
+    if isinstance(level_map.check_cell(player.get_x_pos(), player.get_y_pos()), Wall):
+        # Send them back
+        if direction == "a": player.move_right()
+        elif direction == "d": player.move_left()
+        elif direction == "w": player.move_down()
+        elif direction == "s": player.move_up()
+        
+        
+        # if wall is breakable cause it to break here
+        
+        return
+    
+        
     return
 
-def player_choices_in_map(input: str, player: Hero):
+def player_choices_in_map(player_input: str, player: Hero, level_map: Map) -> str | None:
     """
     This function will check what the input of the player and perform an action based on the input
+    This function can also return a string - repersenting needing a different message displayed.
     Args:
         input (str): player input
     """
     # ---------------- Help -------------------
-    if input == "help":
+    if player_input == "help":
         print_help_list()
         
-    elif input == "Quit":
+    elif player_input == "Quit":
         raise ValueError("End game")
     # -------------- Movement -----------------
-    movement_inputs = ["a", "s", "d", "w"]
-    
-    if input in movement_inputs:
-        collision_check()
-    
-    
-    elif input == "a":
-        player.move_left()
-        return
-    
-    elif input == "d":
-        player.move_right()
-        return
-    
-    elif input == "w":
-        player.move_up()
-        return
-    
-    elif input == "s":
-        player.move_down()
-        return
-    # -------------- Error --------------------
-    else:
-        print("")
+    movement = ["a", "d", "s", "w"]
+    if player_input in movement:
+        player_movement(player, level_map, player_input)
         
+        # inventory function
+        
+        # afk function
+    else:
+        return "invalid"
     return
     
-    # MOVE TO MAP.PY
-# def update_map(level_map: Map):
-        
-#     # recreate the map
-#     map_width = level_map.map_width
-#     map_height = level_map.map_height
-#     level_map.create_map(map_width, map_height)
-
     
-#     # re-add the walls
-#     for i in level_map.list_walls:
-#         wall_map_y_pos = i.get_map_y_pos 
-#         wall_map_x_pos = i.get_map_x_pos
-#         level_map.map_state[wall_map_y_pos][wall_map_x_pos]
+    
+# -------------- Error --------------------
+
         
-#     # add the player
-#     level_map.add_hero(level_map.hero)
-#     return
+    return
+
 
 def in_map_movement(level_map: Map, player: Hero):
     """
@@ -93,7 +108,13 @@ def in_map_movement(level_map: Map, player: Hero):
         
         print("what would you like to do")
         player_decision = input("> ")
-        player_choices_in_map(player_decision, player)
+        action_required = player_choices_in_map(player_decision, player, level_map)
+        
+        #TODO: somehow get this to replace the default "what do you like to do message"
+        if action_required == "invalid":
+            print("Invalid action, type 'help' to check list of avaliable actions")
+        # isinstance(action_required, None):
+        
         # update map
         level_map.update_map()
         

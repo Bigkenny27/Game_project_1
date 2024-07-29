@@ -64,7 +64,7 @@ class Map:
 
     def check_cell(self, x_pos: int, y_pos: int) -> Hero | Wall | None:
         """ Checks if the cell contains any entities 
-        Use the 
+        Use the non index 
         Args:
             y_pos (int):
             x_pos (int): 
